@@ -2,7 +2,7 @@ import "server-only";
 import path from "node:path";
 import fs from "node:fs";
 import type { Sql, TransactionSql } from "postgres";
-import { SCHEMA_SQL, seed } from "./seed";
+import { SCHEMA_SQL, SEED_VERSION, seed } from "./seed";
 
 /**
  * Postgres 접근 계층.
@@ -65,8 +65,16 @@ async function init(): Promise<Driver> {
   await d.tx(async (q) => {
     await q.query("SELECT pg_advisory_xact_lock(724001)");
     await q.exec(SCHEMA_SQL);
-    const [{ n }] = await q.query<{ n: number }>("SELECT count(*)::int AS n FROM doctors");
-    if (n === 0) await seed(q);
+    // 예시 데이터 버전이 올라가면 새 행만 추가합니다. 기존 행·사용자 데이터는 건드리지 않습니다.
+    const [meta] = await q.query<{ value: string }>("SELECT value FROM app_meta WHERE key = 'seed_version'");
+    if (Number(meta?.value ?? 0) < SEED_VERSION) {
+      await seed(q);
+      await q.query(
+        `INSERT INTO app_meta (key, value) VALUES ('seed_version', $1)
+         ON CONFLICT (key) DO UPDATE SET value = EXCLUDED.value`,
+        [String(SEED_VERSION)],
+      );
+    }
   });
   return d;
 }

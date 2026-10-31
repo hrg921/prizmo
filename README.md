@@ -8,6 +8,8 @@
   - 배포(Vercel): Neon — `DATABASE_URL`로 접속 (postgres.js)
   - 로컬 개발: 설치 없이 PGlite(WASM 임베디드 Postgres, `./data/pglite`)
 - 첫 요청 때 스키마 생성 + 예시 데이터 시드 (advisory lock으로 동시 콜드 스타트에도 한 번만)
+- 예시 데이터는 `SEED_VERSION`(`src/lib/seed.ts`)으로 관리 — 값을 올려 배포하면 **새 행만 추가**되고
+  기존 의료진·사용자·열람 기록은 그대로 둡니다. 기존 의료진(id)의 값을 바꾸려면 DB에서 직접 수정하세요.
 
 ## 로컬 실행
 
@@ -63,7 +65,7 @@ src/
     signup/ welcome/ situation/ results/ doctors/[id]/… compare/ purchase/ settings/ admin/
   lib/
     db.ts                 # postgres.js(DATABASE_URL) ↔ PGlite(로컬) 드라이버, 지연 초기화, tx
-    seed.ts               # 스키마 + 예시 데이터 (가명 의료진 7명, 논문 169건, 임상 13건 …)
+    seed.ts               # 스키마 + 예시 데이터 (가명 의료진 22명, 논문 389건, 임상 31건 …)
     queries.ts            # 정렬 쿼리, 리포트/기록/질문 조회, 이벤트 로그
     session.ts            # HMAC 서명 쿠키 세션
     constants.ts          # 클라이언트·서버 공용 상수
