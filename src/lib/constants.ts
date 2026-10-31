@@ -11,13 +11,13 @@ export type Axis = "research" | "credential" | "trials" | "hospital" | "conditio
 export const AXES: { key: Axis; label: string }[] = [
   { key: "research", label: "연구" },
   { key: "credential", label: "자격" },
-  { key: "trials", label: "신치료" },
+  { key: "trials", label: "임상시험" },
   { key: "hospital", label: "병원" },
   { key: "condition", label: "조건" },
 ];
 
 /** 열람권 상품 (가격은 프로토타입용 예시) */
 export const PACKAGES = {
-  single: { label: "1회 열람권", credits: 1, amount: 3900 },
-  triple: { label: "3회 열람권", credits: 3, amount: 9900 },
+  pack5: { label: "5회 열람권", credits: 5, amount: 4900 },
+  pack10: { label: "10회 열람권", credits: 10, amount: 8900 },
 } as const;

@@ -15,12 +15,21 @@ export default async function ComparePage({ searchParams }: { searchParams: Prom
   const { thanks } = await searchParams;
   await logEvent(user.id, "compare");
 
-  const rows: [string, (d: (typeof docs)[number]) => string][] = [
+  const rows: [string, (d: (typeof docs)[number]) => React.ReactNode][] = [
     ["연구", (d) => `${d.research_n}건`],
     ["자격", (d) => d.cert_short],
-    ["신치료", (d) => `${d.trials_n}건`],
+    ["임상시험", (d) => `${d.trials_n}건`],
     ["병원", (d) => `${d.hospital_grade}등급`],
-    ["거리", (d) => `${d.distance_km}km`],
+    [
+      "조건",
+      (d) => (
+        <>
+          {d.clinic_days}
+          <br />
+          {d.distance_km}km
+        </>
+      ),
+    ],
   ];
   const [top, rest] = [questions.slice(0, 3), questions.slice(3)];
 
@@ -28,7 +37,7 @@ export default async function ComparePage({ searchParams }: { searchParams: Prom
     `[프리즈모] ${profile.site}암 ${profile.stage} · 의료진 공개 기록 비교`,
     ...docs.map(
       (d) =>
-        `- ${d.name} 교수(${d.hospital}): 연구 ${d.research_n}건 · ${d.cert_short} · 신치료 ${d.trials_n}건 · 병원 ${d.hospital_grade}등급 · ${d.distance_km}km`,
+        `- ${d.name} 교수(${d.hospital}): 연구 ${d.research_n}건 · ${d.cert_short} · 임상시험 ${d.trials_n}건 · 병원 ${d.hospital_grade}등급 · ${d.clinic_days} · ${d.distance_km}km`,
     ),
     "",
     "첫 진료 때 물어볼 질문",

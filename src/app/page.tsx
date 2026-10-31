@@ -7,7 +7,7 @@ import { Brand, Chevron } from "@/components/ui";
 const PRINCIPLES = [
   ["연구", "PubMed · 학회지", "관련 논문·발표"],
   ["자격", "대한대장항문학회", "세부전문의 명단"],
-  ["신치료", "ClinicalTrials.gov · CRIS", "임상시험 책임연구"],
+  ["임상시험", "ClinicalTrials.gov · CRIS", "책임연구자 참여"],
   ["병원", "건강보험심사평가원", "대장암 적정성 평가"],
   ["진료 조건", "병원 홈페이지", "외래 진료 시간표"],
 ];
