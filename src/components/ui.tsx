@@ -82,6 +82,23 @@ export function InfoNote({ children }: { children: ReactNode }) {
   );
 }
 
+/** 공개 기록 기준일 — 리포트·비교표 상단에 크게 표시 */
+export function RecordsAsOf({ date }: { date: string }) {
+  return (
+    <div className="asof" role="note" aria-label={`기록 기준일 ${date}`}>
+      <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" style={{ flex: "none", color: "var(--navy)" }}>
+        <rect x="3.5" y="5" width="17" height="15" rx="3" fill="none" stroke="currentColor" strokeWidth="1.8" />
+        <path d="M3.5 10h17M8 3v4M16 3v4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+      </svg>
+      <div>
+        <div className="k">기록 기준일</div>
+        <div className="v">{date}</div>
+      </div>
+      <span className="s">이 날짜까지 공개된 기록을 정리했어요</span>
+    </div>
+  );
+}
+
 export function TicketIcon() {
   return (
     <span className="icon" aria-hidden="true">

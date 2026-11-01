@@ -1,7 +1,8 @@
 import Link from "next/link";
 import { requireUser } from "@/lib/session";
 import { AXES, CRITERIA, axisSummary, logEvent, requireProfile, requireViewed } from "@/lib/queries";
-import { Chevron, Header, InfoNote } from "@/components/ui";
+import { Chevron, Header, InfoNote, RecordsAsOf } from "@/components/ui";
+import { RECORDS_AS_OF } from "@/lib/constants";
 
 export default async function ReportPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -17,6 +18,7 @@ export default async function ReportPage({ params }: { params: Promise<{ id: str
     <>
       <Header back="/results" title="의료진 리포트" />
       <main className="content">
+        <RecordsAsOf date={RECORDS_AS_OF} />
         <div className="report-head">
           <div>
             <div className="org">

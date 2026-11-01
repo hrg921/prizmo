@@ -3,7 +3,8 @@ import { redirect } from "next/navigation";
 import { requireUser } from "@/lib/session";
 import { logEvent, questionsFor, requireProfile, viewedDoctors } from "@/lib/queries";
 import { sendFeedback } from "../actions";
-import { Header } from "@/components/ui";
+import { Header, RecordsAsOf } from "@/components/ui";
+import { RECORDS_AS_OF } from "@/lib/constants";
 import ShareButtons from "./ShareButtons";
 
 export default async function ComparePage({ searchParams }: { searchParams: Promise<{ thanks?: string }> }) {
@@ -35,6 +36,7 @@ export default async function ComparePage({ searchParams }: { searchParams: Prom
 
   const shareText = [
     `[프리즈모] ${profile.site}암 ${profile.stage} · 의료진 공개 기록 비교`,
+    `기록 기준일 ${RECORDS_AS_OF}`,
     ...docs.map(
       (d) =>
         `- ${d.name} 교수(${d.hospital}): 연구 ${d.research_n}건 · ${d.cert_short} · 임상시험 ${d.trials_n}건 · 병원 ${d.hospital_grade}등급 · ${d.clinic_days} · ${d.distance_km}km`,
@@ -48,6 +50,7 @@ export default async function ComparePage({ searchParams }: { searchParams: Prom
     <>
       <Header back="/results" title="비교 & 진료 준비" />
       <main className="content">
+        <RecordsAsOf date={RECORDS_AS_OF} />
         <table className="cmp">
           <thead>
             <tr>

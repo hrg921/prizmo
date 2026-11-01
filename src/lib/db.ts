@@ -3,6 +3,7 @@ import path from "node:path";
 import fs from "node:fs";
 import type { Sql, TransactionSql } from "postgres";
 import { SCHEMA_SQL, SEED_VERSION, seed } from "./seed";
+import { LEGACY_CRITERIA } from "./constants";
 
 /**
  * Postgres 접근 계층.
@@ -65,6 +66,13 @@ async function init(): Promise<Driver> {
   await d.tx(async (q) => {
     await q.query("SELECT pg_advisory_xact_lock(724001)");
     await q.exec(SCHEMA_SQL);
+    // 기준 이름이 바뀌기 전에 저장된 상황 정보를 새 이름으로 옮깁니다 ('최신 치료'→'임상시험', '거리'→'조건').
+    for (const [from, to] of Object.entries(LEGACY_CRITERIA)) {
+      await q.query(
+        "UPDATE profiles SET criteria = array_replace(criteria, $1::text, $2::text) WHERE $1::text = ANY(criteria)",
+        [from, to],
+      );
+    }
     // 예시 데이터 버전이 올라가면 새 행만 추가합니다. 기존 행·사용자 데이터는 건드리지 않습니다.
     const [meta] = await q.query<{ value: string }>("SELECT value FROM app_meta WHERE key = 'seed_version'");
     if (Number(meta?.value ?? 0) < SEED_VERSION) {

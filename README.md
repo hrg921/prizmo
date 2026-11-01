@@ -78,9 +78,9 @@ src/
 // lib/queries.ts
 "연구 경력": "research_n DESC"
 "자격·경력": "(cert_short = '세부전문의') DESC, career_years DESC"
-"최신 치료": "trials_n DESC"
+"임상시험":  "trials_n DESC"
 "병원 평가": "hospital_grade ASC, multidisciplinary DESC"
-"거리":      "distance_km ASC"
+"조건":      "distance_km ASC"   // 진료 조건 — 가까운 병원부터
 ```
 고른 두 기준의 키를 순서대로 이어 붙이고 마지막에 `d.id`로 안정 정렬합니다. 합산 점수나 순위 표시는 만들지 않습니다.
 

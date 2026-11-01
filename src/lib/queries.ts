@@ -15,9 +15,9 @@ export { AXES, CONCERNS, CRITERIA_KEYS, PACKAGES, REGIONS, SITES, STAGES, type A
 export const CRITERIA: Record<(typeof CRITERIA_KEYS)[number], { axis: Axis; orderBy: string }> = {
   "연구 경력": { axis: "research", orderBy: "research_n DESC" },
   "자격·경력": { axis: "credential", orderBy: "(cert_short = '세부전문의') DESC, career_years DESC" },
-  "최신 치료": { axis: "trials", orderBy: "trials_n DESC" },
+  임상시험: { axis: "trials", orderBy: "trials_n DESC" },
   "병원 평가": { axis: "hospital", orderBy: "hospital_grade ASC, multidisciplinary DESC" },
-  거리: { axis: "condition", orderBy: "distance_km ASC" },
+  조건: { axis: "condition", orderBy: "distance_km ASC" }, // 진료 조건 — 가까운 병원부터
 };
 
 /* ---------------- 타입 ---------------- */
